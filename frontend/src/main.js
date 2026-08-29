@@ -1,20 +1,26 @@
 
-import Enso, { html, lifecycle, prop, watches } from "ensojs";
-import { testServer } from "./plugins/server";
+import { Enso, html, css, lifecycle, prop, watches } from "ensojs";
 
+import "./components/circular-progress.enso";
 
 Enso.component('enso-app', {
-    watched: {
-        online: prop("Connecting...")
-    },
-    template: html`
-        <h1>{{ @:online }}</h1>
-    `,
-    script: {
-        onStart: watches(async function() {
-            testServer().then(value => this.online = value);
 
-        }, [lifecycle.mount], false)
-    }
+    watched: {
+        value: prop(0)
+    },
+
+    styles: css`
+        circular-progress {
+            width: 100px;
+            height: 100px;
+            border: 1px solid red;
+        }
+    `,
+
+    template: html`
+        <circular-progress :value="{{@:value}}"></circular-progress>
+        <button @click="()=>@:value--"><</button>
+        <button @click="()=>@:value++">></button>
+    `,
+
 });
- 
