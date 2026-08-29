@@ -1,8 +1,6 @@
 
 import Enso, { html, lifecycle, prop, watches } from "ensojs";
-
-
-const server = "/api/health";
+import { testServer } from "./plugins/server";
 
 
 Enso.component('enso-app', {
@@ -14,17 +12,7 @@ Enso.component('enso-app', {
     `,
     script: {
         onStart: watches(async function() {
-            
-            try {
-                const response = await fetch(server, {
-                    signal: AbortSignal.timeout(1000),
-                });
-                if (!response.ok) throw new Error();
-
-                this.online = "Connected";
-            } catch {
-                this.online = "Couldn't connect";
-            }
+            testServer().then(value => this.online = value);
 
         }, [lifecycle.mount], false)
     }
