@@ -1,6 +1,8 @@
 
 from flask import Blueprint, jsonify
 
+from .zfs import get_zfs_space
+
 health = Blueprint("health", __name__)
 
 
@@ -8,6 +10,6 @@ health = Blueprint("health", __name__)
 def server_health():
     return jsonify({
         "status": "ok",
-        "api_version": 1.0
+        "storage": get_zfs_space(),
+        "api_version": 1.0,
     })
- 
