@@ -5,10 +5,6 @@ import "./components/circular-progress.enso";
 
 Enso.component('enso-app', {
 
-    watched: {
-        value: prop(0)
-    },
-
     styles: css`
         circular-progress {
             width: 100px;
@@ -18,9 +14,15 @@ Enso.component('enso-app', {
     `,
 
     template: html`
-        <circular-progress :value="{{@:value}}"></circular-progress>
-        <button @click="()=>@:value--"><</button>
-        <button @click="()=>@:value++">></button>
+        <circular-progress #ref="progress" value="0"></circular-progress>
+        <button @click="()=>this.add(-1)">&lt;</button>
+        <button @click="()=>this.add(1)">&gt;</button>
     `,
+
+    script: {
+        add: function (val) { 
+            this.refs.progress.value = this.refs.progress.value + val; 
+        }
+    }
 
 });
