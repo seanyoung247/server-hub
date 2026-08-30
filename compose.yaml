@@ -8,3 +8,6 @@ services:
 
         ports:
             - "8000:8000"
+
+        devices:
+        - /dev/zfs:/dev/zfs
