@@ -18,41 +18,37 @@ export default Enso.component('circular-progress', {
     },
 
     styles: css`
-        :host {
-            display: block;
-
-            --background: white;
-            --progress-color: currentColor;
-            --track-color: #00000055;
-            --label-size: 75%;
-            --border: none;
-            --start: 0deg;
-        }
+        :host { display: block; }
         div {
             display: flex;
             align-items: center;
             justify-content: center;
             width: var(--size, 100%);
             height: var(--size, 100%);
-            border: var(--border);
+            border: var(--border, none);
             border-radius: 50%;
         }
         #ring {
             --progress: calc((var(--percent) / 100) * 1turn);
-            background: conic-gradient(from var(--start),
-                var(--progress-color) var(--progress),
-                var(--track-color) var(--progress) 1.0turn
+
+            background: conic-gradient(from var(--start, 0deg),
+                var(--progress-color, currentColor) var(--progress),
+                var(--track-color, #00000055) var(--progress) 1.0turn
             );
         }
         #display {
-            --size: var(--label-size);
-            background: var(--background);
+            --size: var(--label-size, 75%);
+
+            color: var(--color, black);
+            background: var(--background, white);
         }
     `,
 
     template: html`
         <div id="ring" :style="--percent:{{@:percentage}};">
-            <div id="display">{{ @:percentage }}%</div>
+            <div id="display">
+                <slot>{{ @:percentage }}%</slot>
+            </div>
         </div>
     `,
 
