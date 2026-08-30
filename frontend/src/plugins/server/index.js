@@ -2,9 +2,12 @@
 import { Enso, html } from "ensojs";
 
 
-Enso.component('enso-server-display', {
+export default Enso.component('enso-server-display', {
 
     template: html`
         
     `,
 });
+
+
+export { testServer } from "utils.js"

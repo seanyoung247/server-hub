@@ -3,7 +3,12 @@ import { Enso, html, css, lifecycle, prop, watches } from "ensojs";
 
 import "./components/circular-progress.enso";
 
+import { testServer } from "./plugins/server/utils";
+
 Enso.component('enso-app', {
+    watched: {
+        server: prop({}),
+    },
 
     styles: css`
         circular-progress {
@@ -17,12 +22,13 @@ Enso.component('enso-app', {
     `,
 
     template: html`
-        <circular-progress #ref="progress" value="0" max="50"></circular-progress>
-        <button @click="()=>this.add(-1)">&lt;</button>
-        <button @click="()=>this.add(1)">&gt;</button>
+        <circular-progress #ref="progress" :value="{{ @:server?.used ?? 0 }}" :max="{{ @:server.total ?? 0 }}"></circular-progress>
     `,
 
     script: {
+        onStart: watches(function() {
+            testServer().then(response => this.server = response.storage);
+        }, [lifecycle.mount]),
         add: function (val) { 
             this.refs.progress.value += val; 
         }
