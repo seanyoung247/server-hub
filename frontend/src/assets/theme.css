@@ -1,0 +1,17 @@
+
+:root {
+    --background:       #101418;
+    --surface:          #181e24;
+    --surface-raised:   #212a32;
+    --border:           #34414c;
+
+    --text-color:       #e5edf3;
+    --text-muted:       #8f9da8;
+
+    --accent:           #59b8d1;
+    --accent-muted:     #234550;
+
+    --success:          #62bd88;
+    --warning:          #d9ad59;
+    --danger:           #dc6868;
+}
