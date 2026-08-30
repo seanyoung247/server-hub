@@ -2,8 +2,10 @@
 import { Enso, html, css, lifecycle, prop, watches } from "ensojs";
 
 import "./components/circular-progress.enso";
+import "./components/time-date.enso";
 
 import { testServer } from "./plugins/server/utils";
+
 
 Enso.component('enso-app', {
     watched: {
@@ -11,18 +13,26 @@ Enso.component('enso-app', {
     },
 
     styles: css`
+        time-date {
+            --color: var(--text-color);
+        }
         circular-progress {
             width: 100px;
             height: 100px;
 
-            --border: 1px solid black;
-            --track-color: white;
-            --progress-color: green;
+            --track-color: var(--accent-muted);
+            --progress-color: var(--accent);
+            --background: var(--surface);
+            --color: var(--text-color);
         }
     `,
 
     template: html`
-        <circular-progress #ref="progress" :value="{{ @:server?.used ?? 0 }}" :max="{{ @:server.total ?? 0 }}"></circular-progress>
+        <time-date></time-date>
+        <circular-progress #ref="progress" 
+            :value="{{ @:server?.used ?? 0 }}" 
+            :max="{{ @:server?.total ?? 0 }}"
+        ></circular-progress>
     `,
 
     script: {
