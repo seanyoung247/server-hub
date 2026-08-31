@@ -1,9 +1,12 @@
 
 import { Enso, html, css, lifecycle, prop, watches } from "ensojs";
 
-import "./components/circular-menu.enso";
+import "./components/circular-layout.enso";
 import "./components/circular-progress.enso";
 import "./components/time-date.enso";
+
+import Icons from "./assets/icons.js";
+
 
 import { testServer } from "./plugins/server/utils";
 
@@ -17,7 +20,8 @@ Enso.component('enso-app', {
         time-date {
             --color: var(--text-color);
             --font: var(--mono-font), monospace;
-            --time-font-size: 64px;
+            --time-font-size: 10cqw;
+            --date-font-size: 5cqw;
 
             &::part(time), &::part(date) {
                 display: flex;
@@ -33,24 +37,35 @@ Enso.component('enso-app', {
             --background: var(--surface);
             --color: var(--text-color);
         }
-        circular-menu {
+        circular-layout {
             color: white;
+            --size: 500px;
+            --arc-color: var(--accent-muted);
+            & svg {
+                width: 100%;
+                height: 100%;
+                fill: white;
+                stroke: none;
+            }
         }
     `,
 
     template: html`
-        <time-date></time-date>
         <circular-progress #ref="progress" 
             :value="{{ @:server?.used ?? 0 }}" 
             :max="{{ @:server?.total ?? 0 }}"
         >
         </circular-progress>
-        <circular-menu>
-            <div style="--i:0;">Item 1</div>
-            <div style="--i:1;">Item 2</div>
-            <div style="--i:2;">Item 3</div>
-            <div style="--i:3;">Item 4</div>
-        </circular-menu>
+        <circular-layout>
+            <div>${Icons.router}</div>
+            <div>${Icons.server}</div>
+            <div>${Icons.jellyfin}</div>
+            <div>${Icons.audiobooks}</div>
+            <div>${Icons.nextcloud}</div>
+            <div>${Icons.pihole}</div>
+
+            <time-date slot="center"></time-date>
+        </circular-layout>
     `,
 
     script: {
@@ -63,3 +78,4 @@ Enso.component('enso-app', {
     }
 
 });
+
