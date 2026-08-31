@@ -15,6 +15,13 @@ Enso.component('enso-app', {
     styles: css`
         time-date {
             --color: var(--text-color);
+            --font: var(--mono-font), monospace;
+            --time-font-size: 64px;
+
+            &::part(time), &::part(date) {
+                display: flex;
+                justify-content: center;
+            }
         }
         circular-progress {
             width: 100px;
@@ -32,7 +39,8 @@ Enso.component('enso-app', {
         <circular-progress #ref="progress" 
             :value="{{ @:server?.used ?? 0 }}" 
             :max="{{ @:server?.total ?? 0 }}"
-        ></circular-progress>
+        >
+        </circular-progress>
     `,
 
     script: {

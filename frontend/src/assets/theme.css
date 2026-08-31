@@ -15,3 +15,8 @@
     --warning:          #d9ad59;
     --danger:           #dc6868;
 }
+
+
+:root {
+    --mono-font: "Share Tech Mono", monospace;
+}
