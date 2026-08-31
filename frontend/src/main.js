@@ -1,6 +1,7 @@
 
 import { Enso, html, css, lifecycle, prop, watches } from "ensojs";
 
+import "./components/circular-menu.enso";
 import "./components/circular-progress.enso";
 import "./components/time-date.enso";
 
@@ -32,6 +33,9 @@ Enso.component('enso-app', {
             --background: var(--surface);
             --color: var(--text-color);
         }
+        circular-menu {
+            color: white;
+        }
     `,
 
     template: html`
@@ -41,6 +45,12 @@ Enso.component('enso-app', {
             :max="{{ @:server?.total ?? 0 }}"
         >
         </circular-progress>
+        <circular-menu>
+            <div style="--i:0;">Item 1</div>
+            <div style="--i:1;">Item 2</div>
+            <div style="--i:2;">Item 3</div>
+            <div style="--i:3;">Item 4</div>
+        </circular-menu>
     `,
 
     script: {
