@@ -9,16 +9,19 @@ export default Enso.component('time-date', {
     styles: css`
         :host {
             color: var(--color, black);
+            --font: sans-serif;
+            --font-weight: bold;
+            --font-size: 22px;
         }
         #time {
-            font-family: var(--time-font, sans-serif);
-            font-weight: var(--time-font-weight, bold);
-            font-size: var(--time-font-size, 22px);
+            font-family: var(--time-font, var(--font));
+            font-weight: var(--time-font-weight, var(--font-weight));
+            font-size: var(--time-font-size, var(--font-size));
         }
         #date {
-            font-family: var(--date-font, sans-serif);
-            font-weight: var(--date-font-weight, bold);
-            font-size: var(--date-font-size, 22px);
+            font-family: var(--date-font, var(--font));
+            font-weight: var(--date-font-weight, var(--font-weight));
+            font-size: var(--date-font-size, var(--font-size));
         }
 
     `,

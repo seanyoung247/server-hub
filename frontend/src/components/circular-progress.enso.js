@@ -47,7 +47,7 @@ export default Enso.component('circular-progress', {
     template: html`
         <div id="ring" :style="--percent:{{@:percentage}};">
             <div id="display">
-                <slot>{{ @:percentage }}%</slot>
+                {{ @:percentage }}%
             </div>
         </div>
     `,
