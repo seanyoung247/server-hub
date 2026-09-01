@@ -9,22 +9,22 @@ export default Enso.component('circular-layout', {
             display: block;
 
             --size: 100px;
+            --item-size: 64px;
+            --padding: 5cqw;
+            
             width: var(--size);
             height: var(--size);
 
-            --item-size: 64px;
+            overflow: hidden;
+
+            border-radius: 50%;
+            container-type: size;
         }
-        #menu {
+        #container {
             display: flex;
             position: relative;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center,
-                transparent 0% 49%, var(--arc-color, #555) 50% 100%
-            );
-
-            border-radius: 50%;
-            container-type: size;
 
             width: 100%;
             height: 100%;
@@ -35,7 +35,9 @@ export default Enso.component('circular-layout', {
                     width: var(--item-size);
                     height: var(--item-size);
         
-                    --radius: calc((var(--size) - var(--item-size)) / 2);
+                    --radius: calc(
+                        (var(--size) - var(--item-size) - var(--padding)) / 2
+                    );
                     --angle: calc(
                         ((1turn / var(--count)) * var(--i))
                     );
@@ -49,7 +51,7 @@ export default Enso.component('circular-layout', {
     `,
 
     template: html`
-        <div id="menu" #ref="menu">
+        <div id="container" #ref="container">
             <slot id="items" #ref="items"
                 @slotChange="this.updateItems"
             >
@@ -61,7 +63,7 @@ export default Enso.component('circular-layout', {
     script: {
         updateItems: function() {
             const items = this.refs.items.assignedElements();
-            this.refs.menu.style.setProperty("--count", items.length);
+            this.style.setProperty("--count", items.length);
 
             items.forEach((item, i) => {
                 item.style.setProperty("--i", i);

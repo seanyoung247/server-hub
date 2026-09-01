@@ -20,8 +20,8 @@ Enso.component('enso-app', {
         time-date {
             --color: var(--text-color);
             --font: var(--mono-font), monospace;
-            --time-font-size: 10cqw;
-            --date-font-size: 5cqw;
+            --time-font-size: 8cqw;
+            --date-font-size: 4cqw;
 
             &::part(time), &::part(date) {
                 display: flex;
@@ -40,10 +40,47 @@ Enso.component('enso-app', {
         circular-layout {
             color: white;
             --size: 500px;
-            --arc-color: var(--accent-muted);
+            --padding: 10cqw;
+            --segment: calc(1turn / var(--count));
+            --offset: calc(var(--segment) / 2);
+            --gap: .002turn;
+
+            background: repeating-conic-gradient(
+                from calc(var(--offset) * -1),
+                var(--surface) 0turn calc(var(--segment) - var(--gap)),
+                var(--border) calc(var(--segment) - var(--gap)) var(--segment)
+            );
+            box-shadow: #00000055 0 0 15px 5px;
+
+            & > a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background: var(--surface);
+                
+                &:hover svg {
+                    fill: var(--accent);
+                }
+            }
+            & > div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--surface-raised);
+                background: radial-gradient(
+                    circle at 50% 50%,
+                    var(--surface-raised) 60%,
+                    var(--surface)
+                );
+                padding: 2em;
+                box-shadow: #00000055 0 0 15px 5px;
+                border-radius: 50%;
+                aspect-ratio: 1 / 1;
+            }
             & svg {
-                width: 100%;
-                height: 100%;
+                width: 80%;
+                height: 80%;
                 fill: white;
                 stroke: none;
             }
@@ -57,14 +94,14 @@ Enso.component('enso-app', {
         >
         </circular-progress>
         <circular-layout>
-            <div>${Icons.router}</div>
-            <div>${Icons.server}</div>
-            <div>${Icons.jellyfin}</div>
-            <div>${Icons.audiobooks}</div>
-            <div>${Icons.nextcloud}</div>
-            <div>${Icons.pihole}</div>
+            <a>${Icons.router}</a>
+            <a>${Icons.server}</a>
+            <a>${Icons.jellyfin}</a>
+            <a>${Icons.audiobooks}</a>
+            <a>${Icons.nextcloud}</a>
+            <a>${Icons.pihole}</a>
 
-            <time-date slot="center"></time-date>
+            <div slot="center"><time-date></time-date></div>
         </circular-layout>
     `,
 
