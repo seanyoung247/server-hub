@@ -71,3 +71,55 @@ export default Enso.component('circular-layout', {
         }
     }
 });
+
+
+/*
+        circular-layout {
+            color: white;
+            --size: 500px;
+            --padding: 10cqw;
+            --segment: calc(1turn / var(--count));
+            --offset: calc(var(--segment) / 2);
+            --gap: .002turn;
+
+            background: repeating-conic-gradient(
+                from calc(var(--offset) * -1),
+                var(--surface) 0turn calc(var(--segment) - var(--gap)),
+                var(--border) calc(var(--segment) - var(--gap)) var(--segment)
+            );
+            box-shadow: #00000055 0 0 15px 5px;
+
+            & > a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background: var(--surface);
+                
+                &:hover svg {
+                    fill: var(--accent);
+                }
+            }
+            & > div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--surface-raised);
+                background: radial-gradient(
+                    circle at 50% 50%,
+                    var(--surface-raised) 60%,
+                    var(--surface)
+                );
+                padding: 2em;
+                box-shadow: #00000055 0 0 15px 5px;
+                border-radius: 50%;
+                aspect-ratio: 1 / 1;
+            }
+            & svg {
+                width: 80%;
+                height: 80%;
+                fill: white;
+                stroke: none;
+            }
+        }
+*/

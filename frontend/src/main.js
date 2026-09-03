@@ -5,28 +5,61 @@ import "./components/circular-layout.enso";
 import "./components/circular-progress.enso";
 import "./components/time-date.enso";
 
-import Icons from "./assets/icons.js";
+// import Icons from "./assets/icons.js";
+import Icons from "./assets/icons.svg?raw";
 
 
 import { testServer } from "./plugins/server/utils";
 
 
+const server_links = [
+    {
+        url: "http://router.lan",
+        icon: "#Router",
+        text: "Router"
+    },
+    {
+        url: "https://10.150.220.10:9090",
+        icon: "#Server",
+        text: "Server Dashboard"
+    },
+    {
+        url: "http://dns.lan",
+        icon: "#PiHole",
+        text: "DNS (PiHole)"
+    },
+    {
+        url: "http://nextcloud.lan",
+        icon: "#Nextcloud",
+        text: "Nextcloud"
+    },
+    {
+        url: "http://audiobooks.lan",
+        icon: "#Audiobook",
+        text: "Audiobooks"
+    },
+    {
+        url: "http://media.lan",
+        icon: "#Jellyfin",
+        text: "Jellyfin"
+    }
+]
+
 Enso.component('enso-app', {
     watched: {
         server: prop({}),
     },
+    expose: { server_links },
 
     styles: css`
         time-date {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 48px;
+
             --color: var(--text-color);
             --font: var(--mono-font), monospace;
-            --time-font-size: 8cqw;
-            --date-font-size: 4cqw;
-
-            &::part(time), &::part(date) {
-                display: flex;
-                justify-content: center;
-            }
+            --font-size: 22px;
         }
         circular-progress {
             width: 100px;
@@ -37,78 +70,90 @@ Enso.component('enso-app', {
             --background: var(--surface);
             --color: var(--text-color);
         }
-        circular-layout {
-            color: white;
-            --size: 500px;
-            --padding: 10cqw;
-            --segment: calc(1turn / var(--count));
-            --offset: calc(var(--segment) / 2);
-            --gap: .002turn;
+        nav {
+            display: flex;
+            flex-direction: column;
+            background: var(--surface);
+            width:48px;
+            gap: 1em;
 
-            background: repeating-conic-gradient(
-                from calc(var(--offset) * -1),
-                var(--surface) 0turn calc(var(--segment) - var(--gap)),
-                var(--border) calc(var(--segment) - var(--gap)) var(--segment)
-            );
-            box-shadow: #00000055 0 0 15px 5px;
-
-            & > a {
+            & > a.server-link {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                position: relative;
 
-                background: var(--surface);
-                
-                &:hover svg {
-                    fill: var(--accent);
+                width: 48px;
+                height: 48px;
+
+                color: var(--text-color);
+                text-decoration: none;
+
+                & > svg {
+                    position: absolute;
+                    width: 32px;
+                    height: 32px;
+                    fill: currentColor;
+                    transition: scale 0.5s, color 0.5s;
                 }
-            }
-            & > div {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: var(--surface-raised);
-                background: radial-gradient(
-                    circle at 50% 50%,
-                    var(--surface-raised) 60%,
-                    var(--surface)
-                );
-                padding: 2em;
-                box-shadow: #00000055 0 0 15px 5px;
-                border-radius: 50%;
-                aspect-ratio: 1 / 1;
-            }
-            & svg {
-                width: 80%;
-                height: 80%;
-                fill: white;
-                stroke: none;
+                & > span {
+                    display: flex;
+                    align-items: center;
+                    position: absolute;
+
+                    left: 100%;
+                    scale: 0 1;
+                    padding: 0 1.5em 0 1.0em;
+                    border-radius: 0 999px 999px 0;
+                    border: 1px solid var(--border);
+                    border-left: none;
+
+                    height: 48px;
+
+                    background: var(--surface);
+
+                    transform-origin: left;
+                    transition: scale 0.5s;
+                }
+                &:hover {
+                    & > svg {
+                        color: var(--accent);
+                        scale: 1.5;
+                    }
+                    & > span {
+                        scale: 1;
+                    }
+                }
             }
         }
     `,
 
     template: html`
-        <circular-progress #ref="progress" 
+        ${Icons}
+        <time-date></time-date>
+        <!-- <circular-progress #ref="progress" 
             :value="{{ @:server?.used ?? 0 }}" 
             :max="{{ @:server?.total ?? 0 }}"
         >
-        </circular-progress>
-        <circular-layout>
-            <a>${Icons.router}</a>
-            <a>${Icons.server}</a>
-            <a>${Icons.jellyfin}</a>
-            <a>${Icons.audiobooks}</a>
-            <a>${Icons.nextcloud}</a>
-            <a>${Icons.pihole}</a>
-
-            <div slot="center"><time-date></time-date></div>
-        </circular-layout>
+        </circular-progress>-->
+        <nav>
+            <a *for="link of server_links"
+                :href="{{ link.url }}"
+                class="server-link"
+            >
+                <svg viewBox="0 0 100 100">
+                    <use :href="{{ link.icon }}"></use>
+                </svg>
+                <span>{{ link.text }}</span>
+            </a>
+        </nav>
     `,
 
     script: {
         onStart: watches(function() {
             testServer().then(response => this.server = response.storage);
         }, [lifecycle.mount]),
+        
         add: function (val) { 
             this.refs.progress.value += val; 
         }
