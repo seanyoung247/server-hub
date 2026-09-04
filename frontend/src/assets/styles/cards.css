@@ -5,6 +5,7 @@
     margin: 0.5em;
 
     border-radius: 10px;
+    box-shadow: #00000033 0 0 5px;
 }
 
 .card-section {
