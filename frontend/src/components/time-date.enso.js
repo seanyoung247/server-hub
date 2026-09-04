@@ -4,7 +4,7 @@ import { Enso, html, css, prop, lifecycle, watches } from "ensojs";
 
 export default Enso.component('time-date', {
     watched: {
-        time: prop(new Date()),
+        time: prop(()=>new Date()),
     },
     styles: css`
         :host {
@@ -27,7 +27,12 @@ export default Enso.component('time-date', {
     `,
     template: html`
         <div id="time" part="time">
-            {{ @:time.toLocaleTimeString('en-GB') }}
+            {{
+                @:time.toLocaleTimeString('en-GB', {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }) 
+            }}
         </div>
         <div id="date" part="date">
             {{ 
