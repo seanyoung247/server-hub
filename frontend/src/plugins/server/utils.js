@@ -16,12 +16,12 @@ export async function getServerStatus() {
     }
 }
 
-export function formatSize(bytes, unit) {
+export function formatSize(bytes=0, unit='tb', fixed=2) {
     const factors = {
         kb: 1024,
         mb: 1048576,
         gb: 1073741824,
         tb: 1099511627776,
     }
-    return bytes / factors[unit];
+    return (bytes / factors[unit]).toFixed(fixed);
 }
