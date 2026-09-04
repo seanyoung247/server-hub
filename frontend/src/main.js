@@ -6,6 +6,7 @@ import "./components/circular-progress.enso";
 import "./components/time-date.enso";
 
 import "./plugins/server";
+import "./plugins/weather";
 
 import Reset from "./assets/styles/reset.css?inline";
 
@@ -34,6 +35,7 @@ Enso.component('enso-app', {
         <header>
             <time-date></time-date>
         </header>
+        <enso-weather></enso-weather>
         <enso-home-server></enso-home-server>
     `,
 
