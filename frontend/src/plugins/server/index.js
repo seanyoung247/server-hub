@@ -11,7 +11,8 @@ import Reset from "../../assets/styles/reset.css?inline";
 
 export default Enso.component('enso-home-server', {
     watched: {
-        server: prop(null)
+        server: prop(null),
+        loading: prop(true)
     },
     expose: { formatSize },
     styles: [css(Reset), css(CardStyles), css`
@@ -51,6 +52,10 @@ export default Enso.component('enso-home-server', {
                 &.offline::before {
                     --light-color: #FF0000;
                     --dark-color: #660000;
+                }
+                &.refreshing::before {
+                    --light-color: #FFFF00;
+                    --dark-color: #666600;
                 }
                 &.online::before {
                     --light-color: #00FF00;
@@ -138,8 +143,9 @@ export default Enso.component('enso-home-server', {
                     </tbody>
                 </table>
             </div>
+
             <div id="footer" slot="footer">
-                <refresh-button
+                <refresh-button :active="{{ @:loading }}"
                     @refresh="this.refresh"
                 ></refresh-button>
             </div>
@@ -148,11 +154,21 @@ export default Enso.component('enso-home-server', {
 
     script: {
         refresh: function() {
-            this.server = null;
+            this.loading = true;
             getServerStatus().then(
-                response => this.server = response
+                response => {
+                    this.server = response;
+                    this.loading = false;
+                }
             );
         },
+
+        status: function(refreshing, state) {
+            if (refreshing) return "refreshing";
+            if (state) return "online";
+            return "offline";
+        },
+
         onStart: watches(function() {
             this.refresh();
         }, [lifecycle.mount], false)

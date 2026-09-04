@@ -40,8 +40,9 @@ Enso.component('refresh-button', {
         onStart: watches(function() {
             const refreshBtn = this.refs.refreshButton;
             refreshBtn.addEventListener('animationiteration', ()=>{
-                if (!this.hasAttribute('active'))
+                if (!this.hasAttribute('active')) {
                     refreshBtn.classList.remove('refresh');
+                }
             });
         }, [lifecycle.mount]),
 
